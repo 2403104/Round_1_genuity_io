@@ -1,0 +1,84 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Semantic Tree Schema",
+    "description": "Schema for the hierarchical semantic tree structure",
+    "type": "object",
+    "properties": {
+        "name": {
+            "type": "string",
+            "description": "Unique identifier for the node"
+        },
+        "centroid": {
+            "type": "array",
+            "items": {
+                "type": "number"
+            },
+            "minItems": 384,
+            "maxItems": 384,
+            "description": "384-dimensional embedding vector representing the cluster center"
+        },
+        "size": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Total number of descendant documents"
+        },
+        "keywords": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "description": "Descriptive keywords for the cluster"
+        },
+        "children": {
+            "type": "object",
+            "additionalProperties": {
+                "$ref": "#/definitions/node"
+            },
+            "description": "Dictionary of child nodes"
+        },
+        "files": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/leaf_node"
+            },
+            "description": "List of documents in this node (if leaf/mixed)"
+        }
+    },
+    "required": [
+        "name",
+        "centroid",
+        "size"
+    ],
+    "definitions": {
+        "node": {
+            "$ref": "#"
+        },
+        "leaf_node": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "file_name": {
+                    "type": "string"
+                },
+                "file_location": {
+                    "type": "string"
+                },
+                "embedding": {
+                    "type": "array",
+                    "items": {
+                        "type": "number"
+                    },
+                    "minItems": 384,
+                    "maxItems": 384
+                }
+            },
+            "required": [
+                "id",
+                "file_name",
+                "embedding"
+            ]
+        }
+    }
+}
